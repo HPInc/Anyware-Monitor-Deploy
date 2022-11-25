@@ -3,6 +3,7 @@
 Script to automatically deploy Anyware Monitor
 
 This script enables automating the installation and registration of Anyware Monitor to Anyware Manager. 
+
 Please note :
 
 Only windows hosts are supported with this version and the script should be run locally on windows host machine.
