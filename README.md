@@ -1,6 +1,6 @@
 # Anyware Monitor Deployment
 
-Script to automatically deploy Anyware Monitor
+## Script to automatically deploy Anyware Monitor
 
 This script enables automating the installation and registration of Anyware Monitor to Anyware Manager. 
 
