@@ -47,7 +47,7 @@ new-module -name deploy_monitor -scriptblock {
             [Parameter()]
             [switch]$ignore_cert = $false,
             [Parameter()]
-            [switch]$channel = "stable"
+            [string]$channel = "stable"
         )
 
         #Requires -RunAsAdministrator
