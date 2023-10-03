@@ -46,6 +46,8 @@ new-module -name deploy_monitor -scriptblock {
             [string]$manager_url,
             [Parameter()]
             [switch]$ignore_cert = $false
+            [Parameter()]
+            [switch]$channel = "stable"
         )
 
         #Requires -RunAsAdministrator
@@ -183,7 +185,18 @@ new-module -name deploy_monitor -scriptblock {
 
         Function InstallMonitor([string] $monitorToken) {
             Write-Host "--> Starting monitor installation script."
-            $monitorSetupUrl = "https://anyware.blob.core.windows.net/awm-monitor/nightly/latest/awm_monitor_install.ps1"
+            $channelUrls = @{
+                "stable" = "https://dl.teradici.com/EwX7bPdudUUD6bsr/anyware-manager/raw/names/anyware-monitor-ps1/versions/latest/anyware-monitor.ps1"
+                "beta"   = "https://dl.teradici.com/EwX7bPdudUUD6bsr/anyware-manager-beta/raw/names/anyware-monitor-ps1/versions/latest/anyware-monitor.ps1"
+                "dev"    = "https://dl.teradici.com/EwX7bPdudUUD6bsr/anyware-manager-dev/raw/names/anyware-monitor-ps1/versions/latest/anyware-monitor.ps1"
+            }
+
+            if ($channelUrls.ContainsKey($channel)) {
+                $monitorSetupUrl = $channelUrls[$channel]
+            } else {
+                Write-Host "ERROR: Invalid channel specified."
+                exit
+            }
 
             $params = @{
                 manager_uri = $manager_url
