@@ -45,7 +45,7 @@ new-module -name deploy_monitor -scriptblock {
             [Parameter(Mandatory = $true)]
             [string]$manager_url,
             [Parameter()]
-            [switch]$ignore_cert = $false
+            [switch]$ignore_cert = $false,
             [Parameter()]
             [switch]$channel = "stable"
         )
