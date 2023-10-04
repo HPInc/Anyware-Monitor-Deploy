@@ -193,12 +193,7 @@ new-module -name deploy_monitor -scriptblock {
                 "dev"    = "https://dl.teradici.com/$cloudsmithToken/anyware-manager-dev/raw/names/anyware-monitor-ps1/versions/latest/anyware-monitor.ps1"
             }
 
-            if ($channelUrls.ContainsKey($channel)) {
-                $monitorSetupUrl = $channelUrls[$channel]
-            } else {
-                Write-Host "ERROR: Invalid channel specified."
-                exit
-            }
+            $monitorSetupUrl = $channelUrls[$channel]
 
             $params = @{
                 manager_uri = $manager_url
