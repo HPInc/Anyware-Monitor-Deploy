@@ -18,7 +18,7 @@ This script enables automating the installation and registration of Anyware Moni
 ## Example on how to use the script
 
 ```
-PS C:> .\deploy_monitor.ps1 -config_file file.json -monitor_hostname 'hostname.domain.local' -manager_url <https://cas-staging.teradici.com>
+powershell.exe -noexit "./deploy_monitor.ps1 Invoke-Expression; deploy -config_file file.json -manager_url https://cas.teradici.com -monitor_machine_name hostname.domain.local;exit"
 ```
 
 ## Example on how to use the script with "-ignore_cert"

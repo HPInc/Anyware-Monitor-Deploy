@@ -45,7 +45,10 @@ new-module -name deploy_monitor -scriptblock {
             [Parameter(Mandatory = $true)]
             [string]$manager_url,
             [Parameter()]
-            [switch]$ignore_cert = $false
+            [switch]$ignore_cert = $false,
+            [Parameter()]
+            [ValidateSet("stable", "beta", "dev")]
+            [string]$channel = "stable"
         )
 
         #Requires -RunAsAdministrator
@@ -64,15 +67,15 @@ new-module -name deploy_monitor -scriptblock {
                 "###############################################################################"
 
                 add-type @"
-	using System.Net;
-	using System.Security.Cryptography.X509Certificates;
-	public class TrustAllMonitorCertsPolicy : ICertificatePolicy {
-		public bool CheckValidationResult(
-			ServicePoint srvPoint, X509Certificate certificate,
-			WebRequest request, int certificateProblem) {
-			return true;
-		}
-	}
+    using System.Net;
+    using System.Security.Cryptography.X509Certificates;
+    public class TrustAllMonitorCertsPolicy : ICertificatePolicy {
+        public bool CheckValidationResult(
+            ServicePoint srvPoint, X509Certificate certificate,
+            WebRequest request, int certificateProblem) {
+            return true;
+        }
+    }
 "@
                 [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllMonitorCertsPolicy
 
@@ -182,12 +185,21 @@ new-module -name deploy_monitor -scriptblock {
         }
 
         Function InstallMonitor([string] $monitorToken) {
+            $cloudsmithToken = "EwX7bPdudUUD6bsr"
             Write-Host "--> Starting monitor installation script."
-            $monitorSetupUrl = "https://anyware.blob.core.windows.net/awm-monitor/nightly/latest/awm_monitor_install.ps1"
+            $channelUrls = @{
+                "stable" = "https://dl.teradici.com/$cloudsmithToken/anyware-manager/raw/names/anyware-monitor-ps1/versions/latest/anyware-monitor.ps1"
+                "beta"   = "https://dl.teradici.com/$cloudsmithToken/anyware-manager-beta/raw/names/anyware-monitor-ps1/versions/latest/anyware-monitor.ps1"
+                "dev"    = "https://dl.teradici.com/$cloudsmithToken/anyware-manager-dev/raw/names/anyware-monitor-ps1/versions/latest/anyware-monitor.ps1"
+            }
+
+            $monitorSetupUrl = $channelUrls[$channel]
 
             $params = @{
                 manager_uri = $manager_url
                 token       = $monitorToken
+                download_token = $cloudsmithToken
+                channel     = $channel
             }
             if ($ignore_cert) {
                 $params.Add("ignore_cert", 1)
