@@ -196,10 +196,11 @@ new-module -name deploy_monitor -scriptblock {
             $monitorSetupUrl = $channelUrls[$channel]
 
             $params = @{
-                manager_uri = $manager_url
-                token       = $monitorToken
+                manager_uri    = $manager_url
+                token          = $monitorToken
                 download_token = $cloudsmithToken
-                channel     = $channel
+                channel        = $channel
+                skip_timeout   = $true
             }
             if ($ignore_cert) {
                 $params.Add("ignore_cert", 1)
