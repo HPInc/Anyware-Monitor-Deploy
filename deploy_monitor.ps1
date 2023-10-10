@@ -200,7 +200,7 @@ new-module -name deploy_monitor -scriptblock {
                 token          = $monitorToken
                 download_token = $cloudsmithToken
                 channel        = $channel
-                skip_timeout   = $true
+                use_download_timeout   = $false
             }
             if ($ignore_cert) {
                 $params.Add("ignore_cert", 1)
