@@ -51,7 +51,10 @@ new-module -name deploy_monitor -scriptblock {
             [string]$channel = "stable"
         )
 
-        #Requires -RunAsAdministrator
+        if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+            Write-Host "This script must be run as an administrator. Please run PowerShell as an administrator and try again."
+            exit 1
+        }
 
         $settings = ConvertFrom-Json (Get-Content $config_file -Raw)
         $username = $settings.username
@@ -196,10 +199,11 @@ new-module -name deploy_monitor -scriptblock {
             $monitorSetupUrl = $channelUrls[$channel]
 
             $params = @{
-                manager_uri = $manager_url
-                token       = $monitorToken
+                manager_uri    = $manager_url
+                token          = $monitorToken
                 download_token = $cloudsmithToken
-                channel     = $channel
+                channel        = $channel
+                use_download_timeout   = 0
             }
             if ($ignore_cert) {
                 $params.Add("ignore_cert", 1)
