@@ -20,7 +20,7 @@ This script enables automating the installation and registration of Anyware Moni
 ```
 powershell.exe -noexit "./deploy_monitor.ps1 Invoke-Expression; deploy -config_file file.json -manager_url https://cas.teradici.com -monitor_machine_name hostname.domain.local;exit"
 ```
-###Without Cloning the repo
+### Without Cloning the repo
 ```
 powershell.exe -noexit ". { Set-Variable ProgressPreference SilentlyContinue; Invoke-WebRequest -useb https://raw.githubusercontent.com/HPInc/Anyware-Monitor-Deploy/main/deploy_monitor.ps1 } | Invoke-Expression; deploy -manager_url https://cas.teradici.com -config_file <service account.json> -monitor_machine_name <machine_name> -channel dev;exit"
 ```
