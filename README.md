@@ -32,4 +32,13 @@ Additionally, the -ignore_cert parameter is added to skip certificate validation
 
 HP recommends exploring a secure password storage solutions and not have passwords stored in a plaintext file. Customers can modify this script to retrieve passwords from a secure locations. When using this script without modifications, please ensure the read access permissions are restricted to the JSON config file that holds the Manager password.
 
+## Uninstalling Anyware Monitor
+```
+powershell.exe -noexit "Start-Process -FilePath "C:\Program Files\HP\Anyware Manager Monitor\Uninstall.exe" -ArgumentList "/S" -PassThru -Wait"
+```
+## Updating Anyware Monitor
+```
+powershell.exe -noexit ". { Set-Variable ProgressPreference SilentlyContinue; Invoke-WebRequest -useb https://dl.anyware.hp.com/EwX7bPdudUUD6bsr/anyware-manager/raw/names/anyware-monitor-ps1/versions/latest/anyware-monitor_latest.ps1 } | Invoke-Expression; install -download_token EwX7bPdudUUD6bsr -skip_registration 1;exit"
+```
+
 © Copyright 2022 HP Development Company, L.P.
