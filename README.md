@@ -15,13 +15,13 @@ This script enables automating the installation and registration of Anyware Moni
 .\deploy_monitor.ps1 -config_file -monitor_hostname -manager_url
 ```
 
-## Example on how to use the script
+## Example of how to use the script
 
-### Locally:
+### Cloning the repo:
 ```
 powershell.exe -noexit "./deploy_monitor.ps1 Invoke-Expression; deploy -config_file file.json -manager_url https://cas.teradici.com -monitor_machine_name hostname.domain.local;exit"
 ```
-### Remotely:
+### Without cloning the repo:
 ```
 powershell.exe -noexit ". { Set-Variable ProgressPreference SilentlyContinue; Invoke-WebRequest -useb https://raw.githubusercontent.com/HPInc/Anyware-Monitor-Deploy/main/deploy_monitor.ps1 } | Invoke-Expression; deploy -config_file file.json -manager_url https://cas.teradici.com -monitor_machine_name hostname.domain.local;exit"
 ```
