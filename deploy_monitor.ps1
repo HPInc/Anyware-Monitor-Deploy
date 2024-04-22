@@ -187,7 +187,7 @@ new-module -name deploy_monitor -scriptblock {
             return $monitorToken
         }
 
-        Function InstallMonitor([string] $monitorToken, [string] $cloudsmithToken) {            Write-Host "--> Starting monitor installation script."
+        Function InstallMonitor([string] $monitorToken, [string] $cloudsmithToken) {
             Write-Host "--> Starting monitor installation script."
             $channelUrls = @{
                 "stable" = "https://dl.teradici.com/$cloudsmithToken/anyware-manager/raw/names/anyware-monitor-ps1/versions/latest/anyware-monitor.ps1"
@@ -196,7 +196,7 @@ new-module -name deploy_monitor -scriptblock {
             }
 
             $monitorSetupUrl = $channelUrls[$channel]
-            
+
             $params = @{
                 manager_uri    = $manager_url
                 token          = $monitorToken
