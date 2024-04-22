@@ -187,8 +187,7 @@ new-module -name deploy_monitor -scriptblock {
             return $monitorToken
         }
 
-        Function InstallMonitor([string] $monitorToken) {
-            $cloudsmithToken = "EwX7bPdudUUD6bsr"
+        Function InstallMonitor([string] $monitorToken, [string] $cloudsmithToken) {            Write-Host "--> Starting monitor installation script."
             Write-Host "--> Starting monitor installation script."
             $channelUrls = @{
                 "stable" = "https://dl.teradici.com/$cloudsmithToken/anyware-manager/raw/names/anyware-monitor-ps1/versions/latest/anyware-monitor.ps1"
@@ -197,7 +196,7 @@ new-module -name deploy_monitor -scriptblock {
             }
 
             $monitorSetupUrl = $channelUrls[$channel]
-
+            
             $params = @{
                 manager_uri    = $manager_url
                 token          = $monitorToken
@@ -212,6 +211,30 @@ new-module -name deploy_monitor -scriptblock {
             .{ Invoke-WebRequest -useb $monitorSetupUrl } | Invoke-Expression; install @params
         }
 
+        Function GetCloudsmithToken {
+            param(
+                [Parameter(Mandatory=$true)] [string] $deploymentId,
+                [Parameter(Mandatory=$true)] [string] $channel,
+                [Parameter(Mandatory=$true)] [string] $manager_url,
+                [Parameter(Mandatory=$true)] [string] $token
+            )
+            $channelRepo = @{
+                "stable" = "anyware-manager"
+                "beta"   = "anyware-manager-beta"
+                "dev"    = "anyware-manager-dev"
+            }[$channel]
+            $reqUrl = $manager_url + "/api/v1/deployments/${deploymentId}/downloadTokens/${channelRepo}"
+            $method = "GET"
+            $response = MakeRequest $reqUrl $method $null $token | ConvertFrom-Json
+            $cloudsmithToken = $response.data.downloadToken
+    
+            if (!$cloudsmithToken) {
+                Write-Host "ERROR: Failed to get Cloudsmith token."
+                exit
+            }
+            return $cloudsmithToken
+        }
+                
         Function Pipeline {
             Write-Host "--> Starting Deploying process for monitor $monitor_machine_name."
             setSSLPolicy
@@ -219,7 +242,8 @@ new-module -name deploy_monitor -scriptblock {
             $machineId = GetMachineId($token)
             EnableMonitor $machineId $token
             $monitorToken = GetMonitorAPIToken $machineId $token
-            InstallMonitor($monitorToken)
+            $cloudsmithToken = GetCloudsmithToken $deploymentId $channel $manager_url $token
+            InstallMonitor $monitorToken $cloudsmithToken
         }
 
         Pipeline
