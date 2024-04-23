@@ -31,9 +31,11 @@ Additionally, the -ignore_cert parameter is added to skip certificate validation
 HP recommends exploring secure password storage solutions and not having passwords stored in plaintext file. Customers can modify this script to retrieve passwords from a secure location. When using this script without modifications, please ensure the read access permissions are restricted to the JSON config file that holds the Manager password.
 
 ## Updating the Anyware Monitor
-```
-powershell.exe -noexit ". { Set-Variable ProgressPreference SilentlyContinue; Invoke-WebRequest -useb https://dl.anyware.hp.com/EwX7bPdudUUD6bsr/anyware-manager/raw/names/anyware-monitor-ps1/versions/latest/anyware-monitor_latest.ps1 } | Invoke-Expression; install -download_token EwX7bPdudUUD6bsr -skip_registration 1;exit"
-```
+To update the Anyware Monitor, follow these steps:
+- Begin by logging into the Anyware Manager Admin Console using your credentials
+- Once logged in, locate and select the 'Workstations' page from the lateral menu.
+-  Find and click on the name of the workstation for which you wish to update the Anyware Monitor.
+- On the workstation's details page, locate and click on the 'Anyware Monitor' tab. Here, you will find the install and update instructions. Follow these instructions to update the Anyware Monitor.
 ## Uninstalling the Anyware Monitor
 ```
 powershell.exe -noexit "Start-Process -FilePath 'C:\Program Files\HP\Anyware Manager Monitor\Uninstall.exe' -ArgumentList '/S' -PassThru -Wait"
