@@ -32,10 +32,10 @@ HP recommends exploring secure password storage solutions and not having passwor
 
 ## Updating the Anyware Monitor
 To update the Anyware Monitor, follow these steps:
-- Begin by logging into the Anyware Manager Admin Console using your credentials
-- Once logged in, locate and select the 'Workstations' page from the lateral menu.
--  Find and click on the name of the workstation for which you wish to update the Anyware Monitor.
-- On the workstation's details page, locate and click on the 'Anyware Monitor' tab. Here, you will find the install and update instructions. Follow these instructions to update the Anyware Monitor.
+- Log into the Anyware Manager Admin Console (https://cam.teradici.com/)
+- Click on the three dots besides your deployment name, and then select edit deployment.
+- Navigate to the 'Anyware Monitor' tab and follow the provided instructions to update the Anyware Monitor on Windows.
+> **Note:** The command works with any Windows machine.
 ## Uninstalling the Anyware Monitor
 ```
 powershell.exe -noexit "Start-Process -FilePath 'C:\Program Files\HP\Anyware Manager Monitor\Uninstall.exe' -ArgumentList '/S' -PassThru -Wait"
